@@ -24,7 +24,7 @@ ICN2 (CSIC) & IIIA-CSIC. *(preprint coming soon)*
 
 Two case studies — sharing no domain-specific framework code:
 1. **Neural Architecture Search**: 70 cross-dataset transfer pairs on NAS-Bench-201 and NAS-Bench-Graph
-2. **Combinatorial Optimization**: TSP → JSSP, QAP, VRP, LOP (zero-shot, zero tokens)
+2. **Combinatorial Optimization**: TSP → JSSP, QAP (zero-shot, zero tokens)
 
 ## Setup
 
@@ -37,6 +37,8 @@ cp .env.example .env  # add your OPENAI_API_KEY
 
 Python 3.11+. See [INSTALLATION.md](INSTALLATION.md) for NAS benchmarks and Ollama setup.
 
+**Note**: NAS benchmark data (NATS-tss, ~2.3GB) is not included due to size. See INSTALLATION.md for download instructions.
+
 ## Usage
 
 Train on TSP (offline — uses LLM):
@@ -48,10 +50,8 @@ uv run python scripts/run_iterative_refinement.py \
 
 Transfer to other domains (online — no LLM, zero tokens):
 ```bash
-uv run python scripts/run_qap_transfer.py --instance data/instances/qap/nug12.txt
-uv run python scripts/run_vrp_transfer.py --instance data/instances/vrp/A-n32-k5.vrp
 uv run python scripts/run_jssp_transfer.py --instance data/instances/jssp/ft06.txt
-uv run python scripts/run_lop_transfer.py --instance data/instances/lop/be75eec.txt
+uv run python scripts/run_qap_transfer.py --instance data/instances/qap/nug12.txt
 ```
 
 NAS benchmarks:
@@ -71,7 +71,7 @@ src/geakg/
 ├── core/
 │   ├── role_schema.py   # RoleSchema ontology (11 abstract roles)
 │   └── schemas/         # Domain-specific schemas
-├── contexts/       # Problem domains (TSP, VRP, JSSP, QAP, LOP, NAS)
+├── contexts/       # Problem domains (TSP, JSSP, QAP, NAS)
 ├── offline/        # Training pipeline (iterative refinement)
 ├── online/         # Symbolic executor (no LLM at runtime)
 ├── transfer/       # Cross-domain transfer via GEAKG snapshots
