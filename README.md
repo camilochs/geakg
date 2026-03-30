@@ -82,15 +82,6 @@ src/geakg/
 The 11 abstract roles (RoleSchema) define the ontological primitives:
 `initializer`, `constructor`, `local_search`, `perturbation`, `crossover`, `mutation`, `selection`, `evaluation`, `repair`, `decoder`, `acceptance_criterion`.
 
-## Key results
-
-Same token budget (15k tokens for GEAKG vs 50k for LLaMEA):
-
-| Method | TSP wins (7 instances) | SLM support | Transfer |
-|--------|----------------------|-------------|----------|
-| LLaMEA (50k tokens) | 2/7 | 1/7 with Qwen 14B | No |
-| GEAKG (15k tokens) | **5/7** | **7/7 with Qwen 14B** | Yes (zero-shot) |
-
 ## Tests
 
 ```bash
