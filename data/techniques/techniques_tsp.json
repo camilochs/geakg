@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "source_domain": "tsp",
+  "iteration_count": 20,
+  "successful_techniques": [
+    "graph_based_seriation (spectral_embedding/power_iteration) + endpoint_path_merging (concatenate_with_optional_reversal) + global_structure_first construction",
+    "mutual_nearest_neighbor_chaining + endpoint_based_chain_merging + cheapest_insertion_with_RCL_and_delta_evaluation",
+    "cost_guided_cut_selection + double_bridge_reconnection(4-opt kick) + best_of_k_candidate_evaluation",
+    "cost_guided_destroy + cyclic_block_rotation (3-block reorder) + adaptive_intensity_with_cheap_delta_based_selection",
+    "segment_relocation(Or-opt) + targeted_candidate_selection(worst-anchors + k-nearest destinations) + first_improvement_delta_descent(multi-pass)",
+    "cost_guided_edge_preservation + component_path_extraction + greedy_endpoint_recombination_with_limited_evaluation",
+    "cost_guided_segment_extraction + guided_segment_reinsertion_with_reversal + multi_candidate_selection_via_local_delta",
+    "hotspot_targeting (cost-contribution scoring) + candidate_list_restricted k-opt moves (2opt/relocate/swap) + best_delta_selection with adaptive non-improving acceptance (stagnation-controlled)",
+    "cross_exchange(2\u20134 segment swap + optional reversal) + candidate_list_guidance(hotspot/nearest-neighbor restricted search) + delta_evaluation_with_budgeted_first_improvement",
+    "node_relocation(1) + candidate_list(edge/neighbor_bias) + regret_based_best_move_selection(delta_evaluated)"
+  ],
+  "failed_techniques": [
+    "worst_edge_selection + multi_segment_exchange + large_disruptive_perturbation(with_random_reversal)",
+    "relocation_chain (ejection-chain) + neighbor_list_sampling + best_improvement (improving-only)"
+  ],
+  "successful_patterns": [
+    "Baseline randomly shuffles values at selected positions, breaking many good adjacencies. Candidate does cost-guided edge freezing (preserve low-cost edges) then greedily reconnects the remaining path ",
+    "Baseline applies an uninformed random shuffle that often destroys good structure. The candidate finds a high-cost contiguous \u201cbad\u201d region, removes it, and reinserts (optionally reversed) into a few ta",
+    "The candidate replaces unguided random swaps with cost-directed, neighborhood-restricted micro k-opt moves (2-opt/relocate/swap) chosen by best delta and governed by an adaptive non-improvement accept",
+    "Candidate replaces exhaustive pairwise swaps with targeted large-neighborhood segment cross-exchange (2\u20134 node blocks), guided by worst local-cost \u201chot spots\u201d and neighbor lists, using O(1) delta eval",
+    "Candidate replaces random VND steps with cost-aware relocate moves chosen by a global regret criterion and evaluated via deltas/candidate lists. This focuses search on high-impact nodes/positions and "
+  ],
+  "failed_patterns": [
+    "Candidate replaces simple random partial shuffle with cost-guided multi-block segment exchange plus occasional reversal. This injects large, correlated, structure-breaking changes (often 30\u201350% moved)",
+    "Candidate adds sampled ejection-chain (multi-step relocate) guided by neighbor lists and summed deltas. But it mixes stale indices with sequential relocations and uses noisy heuristics/random sampling"
+  ],
+  "suggested_combinations": []
+}

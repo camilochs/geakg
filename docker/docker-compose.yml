@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  ns-gge:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../data:/app/data
+      - ../experiments/runs:/app/experiments/runs
+      - ../.cache:/app/.cache
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=qwen2.5:7b
+      - OLLAMA_TEMPERATURE=0.7
+      - LOG_LEVEL=INFO
+      - CACHE_DIR=.cache/
+      - RANDOM_SEED=42
+    depends_on:
+      - ollama
+    networks:
+      - ns-gge-network
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ns-gge-network
+    # Pull models on startup (optional, can be done manually)
+    # command: >
+    #   sh -c "ollama pull qwen2.5:7b && ollama serve"
+
+volumes:
+  ollama-data:
+
+networks:
+  ns-gge-network:
+    driver: bridge

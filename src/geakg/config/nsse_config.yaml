@@ -1,0 +1,268 @@
+# =============================================================================
+# NS-SE Universal Configuration
+# =============================================================================
+# Multi-family optimization system configuration.
+# Supports: Permutation, Binary, Continuous, Partition families.
+
+system:
+  seed: 42
+  log_level: INFO
+  output_dir: experiments/
+  cache_enabled: true
+
+# =============================================================================
+# FAMILIES
+# =============================================================================
+families:
+  permutation:
+    enabled: true
+    description: "Solutions are orderings of elements"
+    domains:
+      - tsp
+      - jssp
+      - vrp
+      - pfsp
+      - qap
+    base_operators: src/akg/generic_operators/permutation.py
+    context: src/akg/contexts/families/permutation.py
+
+  binary:
+    enabled: true
+    description: "Solutions are bit vectors"
+    domains:
+      - knapsack
+      - set_cover
+      - feature_selection
+      - max_sat
+    base_operators: src/akg/operators/base/binary.py
+    context: src/akg/contexts/families/binary.py
+
+  continuous:
+    enabled: false
+    description: "Solutions are real-valued vectors"
+    domains:
+      - function_opt
+      - hyperparameter
+      - neural_architecture
+    base_operators: src/akg/operators/base/continuous.py
+    context: src/akg/contexts/families/continuous.py
+
+  partition:
+    enabled: false
+    description: "Solutions assign items to groups"
+    domains:
+      - bin_packing
+      - graph_partition
+      - clustering
+      - vehicle_routing
+    base_operators: src/akg/operators/base/partition.py
+    context: src/akg/contexts/families/partition.py
+
+# =============================================================================
+# DOMAINS
+# =============================================================================
+domains:
+  # Permutation family
+  tsp:
+    family: permutation
+    instances_dir: data/instances/tsp/
+    optimal_known: true
+    description: "Traveling Salesman Problem"
+
+  jssp:
+    family: permutation
+    instances_dir: data/instances/jssp/
+    optimal_known: true
+    description: "Job Shop Scheduling Problem"
+
+  vrp:
+    family: permutation
+    instances_dir: data/instances/vrp/
+    optimal_known: false
+    description: "Vehicle Routing Problem"
+
+  pfsp:
+    family: permutation
+    instances_dir: data/instances/pfsp/
+    optimal_known: true
+    description: "Permutation Flow Shop Problem"
+
+  qap:
+    family: permutation
+    instances_dir: data/instances/qap/
+    optimal_known: true
+    description: "Quadratic Assignment Problem"
+
+  # Binary family
+  knapsack:
+    family: binary
+    instances_dir: data/instances/knapsack/
+    optimal_known: true
+    description: "0-1 Knapsack Problem"
+
+  set_cover:
+    family: binary
+    instances_dir: data/instances/set_cover/
+    optimal_known: false
+    description: "Set Cover Problem"
+
+  feature_selection:
+    family: binary
+    instances_dir: data/instances/feature_selection/
+    optimal_known: false
+    description: "Feature Selection for ML"
+
+  # Continuous family
+  function_opt:
+    family: continuous
+    instances_dir: data/instances/functions/
+    optimal_known: true
+    description: "Benchmark Function Optimization"
+
+  # Partition family
+  bin_packing:
+    family: partition
+    instances_dir: data/instances/bin_packing/
+    optimal_known: true
+    description: "Bin Packing Problem"
+
+  graph_partition:
+    family: partition
+    instances_dir: data/instances/graph_partition/
+    optimal_known: false
+    description: "Graph Partitioning"
+
+# =============================================================================
+# ROLES (Universal across all families)
+# =============================================================================
+roles:
+  construction:
+    - const_greedy
+    - const_random
+    - const_deterministic
+    - const_hybrid
+
+  local_search:
+    - ls_first_improvement
+    - ls_best_improvement
+    - ls_swap
+    - ls_multi
+
+  perturbation:
+    - pert_random
+    - pert_guided
+    - pert_adaptive
+
+# =============================================================================
+# ACO / MMAS Configuration
+# =============================================================================
+aco:
+  n_ants: 20
+  alpha: 1.0          # Pheromone importance
+  beta: 2.0           # Heuristic importance
+  rho: 0.1            # Evaporation rate
+  tau_min: 0.01       # Minimum pheromone
+  tau_max: 1.0        # Maximum pheromone
+  iterations: 100
+  timeout: 60         # Seconds per run
+  elitist: true       # Use elitist strategy
+  local_search: true  # Apply LS after construction
+
+# =============================================================================
+# L0 Generation (Initial Operator Pool)
+# =============================================================================
+l0:
+  operators_per_role: 3
+  validation_runs: 5
+  timeout_per_operator: 10      # Seconds
+  design_axes:
+    - neighborhood
+    - selection
+    - guidance
+    - scope
+  quality_threshold: 0.8        # Minimum quality score to keep
+
+# =============================================================================
+# Transfer Learning
+# =============================================================================
+transfer:
+  # Within same family (e.g., TSP -> VRP)
+  within_family:
+    enabled: true
+    transfer_operators: true    # Operators transfer directly
+    transfer_topology: true     # Graph structure transfers
+    transfer_pheromones: true   # Pheromone values transfer
+    pheromone_decay: 0.5        # Decay factor for transferred pheromones
+
+  # Across families (e.g., TSP -> Knapsack)
+  cross_family:
+    enabled: true
+    transfer_operators: false   # Operators DON'T transfer!
+    transfer_topology: true     # Role transitions transfer
+    transfer_rules: true        # Symbolic rules transfer
+    transfer_heuristics: true   # Meta-heuristic patterns transfer
+
+# =============================================================================
+# LLM Configuration
+# =============================================================================
+llm:
+  backend: openai               # openai, anthropic, ollama
+  model: gpt-4o-mini
+  temperature: 0.7
+  max_tokens_per_call: 2000
+  total_token_budget: 100000
+
+  # Provider-specific settings
+  openai:
+    api_key_env: OPENAI_API_KEY
+    organization_env: OPENAI_ORG_ID  # Optional
+
+  anthropic:
+    api_key_env: ANTHROPIC_API_KEY
+    model: claude-3-sonnet-20240229
+
+  ollama:
+    host: http://localhost:11434
+    model: codellama:13b
+
+# =============================================================================
+# Refinement (L1 -> L2 -> ...)
+# =============================================================================
+refinement:
+  max_rounds: 5
+  weak_spots_per_round: 3       # Number of weak operators to refine
+  improvement_threshold: 0.01   # Minimum improvement to continue
+  early_stop_rounds: 2          # Stop if no improvement for N rounds
+  use_reflection: true          # Enable LLM reflection on failures
+
+# =============================================================================
+# Evaluation
+# =============================================================================
+evaluation:
+  validation_instances: 5       # Instances for validation
+  test_instances: 10            # Instances for final evaluation
+  runs_per_instance: 5          # Runs for statistical significance
+  metrics:
+    - best_cost
+    - avg_cost
+    - convergence_speed
+    - diversity
+
+# =============================================================================
+# Logging and Output
+# =============================================================================
+logging:
+  console_level: INFO
+  file_level: DEBUG
+  log_dir: logs/
+  save_operators: true
+  save_trajectories: false      # Can be large
+  save_pheromones: true
+
+# =============================================================================
+# Experimental Features
+# =============================================================================
+experimental:
+  symbolic_rules: false         # Extract symbolic rules from operators
+  meta_learning: false          # Learn to select operators
+  auto_tuning: false            # Automatic parameter tuning
