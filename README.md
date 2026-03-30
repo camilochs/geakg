@@ -92,12 +92,3 @@ uv run pytest tests/ -v
 
 MIT
 
-## Citation
-
-```bibtex
-@article{chacon2026geakg,
-  title={GEAKG: Generative Executable Algorithm Knowledge Graphs},
-  author={Chacón Sartori, Camilo and García, José H. and Tomut, Andrei Voicu and Blum, Christian},
-  year={2026}
-}
-```
