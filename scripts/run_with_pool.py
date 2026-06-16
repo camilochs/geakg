@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Run optimization using a pre-generated L0 operator pool.
+"""[DEPRECATED] Run optimization using a pre-generated L0 operator pool.
+
+.. deprecated::
+    This script references modules removed during refactoring
+    (``src.geakg.pipeline.NSGGEPipeline``, ``AntColonyOptimizer``) and no longer
+    runs. For the zero-token Symbolic Executor use ``scripts/run_symbolic_tsp.py``;
+    for offline training use ``scripts/run_iterative_refinement.py``.
 
 This script runs ACO optimization WITHOUT any LLM calls at runtime,
 using operators from a pre-generated L0 pool.

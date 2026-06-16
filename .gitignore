@@ -121,3 +121,10 @@ llamea_*.json
 pools/
 data/akg_checkpoints/
 data/trajectories/
+paper_els_cas/
+
+# Manuscript artifacts and internal tooling (never publish)
+.claude/
+*.zip
+els-cas-templates/
+kbs_submitted.pdf

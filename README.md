@@ -60,6 +60,36 @@ uv run python scripts/run_nas_benchmark.py
 uv run python scripts/run_nas_graph_benchmark.py
 ```
 
+## Reproducibility
+
+The headline results run **offline from a frozen GEAKG snapshot with zero LLM
+tokens**. The canonical snapshots are committed under [`artifacts/`](artifacts/),
+so the commands below reproduce paper numbers from a fresh clone — no API key, no
+GPU, no benchmark download.
+
+**Combinatorial optimization — TSP Symbolic Executor (zero tokens):**
+```bash
+uv run python scripts/run_symbolic_tsp.py data/instances/tsp/berlin52.tsp \
+    --snapshot artifacts/tsp/akg_snapshot.json \
+    --pool artifacts/tsp/refined_pool.json \
+    --optimal 7542 -t 20
+# best gap ~0.03–0.1% on berlin52 (stochastic multistart; the paper reports the
+# multi-run figure for the hybrid-50k TSP result).
+```
+
+**Knowledge-graph analysis — from the canonical NAS run (`artifacts/nas/`):**
+```bash
+uv run python scripts/canonical_cora_stats.py   # pheromone convergence: 42 edges, tau in [0.04,1.0]
+uv run python scripts/rule_quality_metrics.py   # 42 candidate -> 18 non-redundant rules; confidence/support
+uv run python scripts/spectral_analysis.py      # spectral gap 0.187, attractor act_mixed (pi=0.14), entropy 0.71
+```
+
+> The full multi-domain transfer tables (TSP→JSSP/QAP) and the 64-pair NAS
+> aggregate require the complete trained-result bundle, which is not yet included
+> in the repository (data deposit pending). The offline training pipeline
+> (`run_iterative_refinement.py`) regenerates snapshots from scratch and **does**
+> use LLM tokens.
+
 ## Architecture
 
 ```
@@ -79,8 +109,11 @@ src/geakg/
 └── execution.py    # Symbolic execution runtime
 ```
 
-The 11 abstract roles (RoleSchema) define the ontological primitives:
-`initializer`, `constructor`, `local_search`, `perturbation`, `crossover`, `mutation`, `selection`, `evaluation`, `repair`, `decoder`, `acceptance_criterion`.
+The 11 abstract roles (RoleSchema, `src/geakg/layers/l0/roles.py`) define the
+ontological primitives, grouped into 3 categories:
+- **Construction**: `const_greedy`, `const_insertion`, `const_savings`, `const_random`
+- **Local search**: `ls_intensify_small`, `ls_intensify_medium`, `ls_intensify_large`, `ls_chain`
+- **Perturbation**: `pert_escape_small`, `pert_escape_large`, `pert_adaptive`
 
 ## Tests
 

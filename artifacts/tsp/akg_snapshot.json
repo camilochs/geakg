@@ -1,0 +1,457 @@
+{
+  "domain": "tsp",
+  "best_gap": 0.06021612170427617,
+  "total_operators": 23,
+  "refinement_rounds": 4,
+  "history": [
+    {
+      "round": 1,
+      "gap": 0.06021612170429004,
+      "weak_spots": 11,
+      "role_diversity": {
+        "const_greedy": 0,
+        "const_insertion": 0,
+        "const_savings": 1,
+        "const_random": 0,
+        "ls_intensify_small": 1,
+        "ls_intensify_medium": 1,
+        "ls_intensify_large": 1,
+        "ls_chain": 0,
+        "pert_escape_small": 0,
+        "pert_escape_large": 1,
+        "pert_adaptive": 0
+      },
+      "pheromones": {
+        "role_level": {
+          "const_greedy->ls_intensify_small": 0.81,
+          "const_insertion->ls_intensify_medium": 0.81,
+          "const_random->ls_chain": 0.81,
+          "const_savings->ls_intensify_large": 1.0,
+          "ls_intensify_small->ls_intensify_medium": 1.0,
+          "ls_intensify_medium->ls_intensify_large": 1.0,
+          "ls_intensify_large->ls_chain": 0.54,
+          "ls_chain->ls_intensify_small": 0.54,
+          "ls_intensify_small->pert_escape_small": 0.45,
+          "ls_intensify_large->pert_escape_large": 1.0,
+          "ls_chain->pert_adaptive": 0.45,
+          "pert_escape_small->ls_intensify_medium": 0.81,
+          "pert_escape_large->ls_intensify_small": 1.0,
+          "pert_adaptive->ls_intensify_large": 0.81
+        },
+        "operator_level": {
+          "const_greedy:const_greedy_base": 0.45,
+          "const_greedy:const_greedy_regret_rcl_043bae": 0.45,
+          "ls_intensify_small:ls_intensify_small_base": 0.45,
+          "ls_intensify_small:ls_intensify_small_adapt_kopt_sa_af165d": 1.0,
+          "const_insertion:const_insertion_base": 0.45,
+          "ls_intensify_medium:ls_intensify_medium_base": 1.0,
+          "const_random:const_random_base": 0.45,
+          "ls_chain:ls_chain_base": 0.45,
+          "const_savings:const_savings_base": 1.0,
+          "ls_intensify_large:llamea_live_ls": 1.0,
+          "pert_escape_small:pert_escape_small_base": 0.45,
+          "pert_escape_small:pert_escape_small_tourn_seg_db_7d80fd": 0.45,
+          "pert_escape_large:pert_escape_large_base": 1.0,
+          "pert_adaptive:pert_adaptive_base": 0.45
+        }
+      }
+    },
+    {
+      "round": 2,
+      "gap": 0.06021612170427617,
+      "weak_spots": 9,
+      "role_diversity": {
+        "const_greedy": 1,
+        "const_insertion": 0,
+        "const_savings": 1,
+        "const_random": 0,
+        "ls_intensify_small": 2,
+        "ls_intensify_medium": 1,
+        "ls_intensify_large": 1,
+        "ls_chain": 2,
+        "pert_escape_small": 0,
+        "pert_escape_large": 1,
+        "pert_adaptive": 1
+      },
+      "pheromones": {
+        "role_level": {
+          "const_greedy->ls_intensify_small": 1.0,
+          "const_insertion->ls_intensify_medium": 0.6561000000000001,
+          "const_random->ls_chain": 0.6561000000000001,
+          "const_savings->ls_intensify_large": 0.81,
+          "ls_intensify_small->ls_intensify_medium": 1.0,
+          "ls_intensify_medium->ls_intensify_large": 1.0,
+          "ls_intensify_large->ls_chain": 1.0,
+          "ls_chain->ls_intensify_small": 0.43740000000000007,
+          "ls_intensify_small->pert_escape_small": 0.36450000000000005,
+          "ls_intensify_large->pert_escape_large": 1.0,
+          "ls_chain->pert_adaptive": 1.0,
+          "pert_escape_small->ls_intensify_medium": 0.6561000000000001,
+          "pert_escape_large->ls_intensify_small": 1.0,
+          "pert_adaptive->ls_intensify_large": 1.0
+        },
+        "operator_level": {
+          "const_greedy:const_greedy_base": 0.36450000000000005,
+          "const_greedy:const_greedy_regret_rcl_043bae": 1.0,
+          "ls_intensify_small:ls_intensify_small_base": 1.0,
+          "ls_intensify_small:ls_intensify_small_adapt_kopt_sa_af165d": 1.0,
+          "const_insertion:const_insertion_base": 0.36450000000000005,
+          "const_insertion:const_insertion_regret_hist_3cc514_b81b35": 0.405,
+          "ls_intensify_medium:ls_intensify_medium_base": 1.0,
+          "const_random:const_random_base": 0.36450000000000005,
+          "ls_chain:ls_chain_base": 1.0,
+          "ls_chain:ls_chain_adaptive_lkh_3b87f4": 1.0,
+          "const_savings:const_savings_base": 0.81,
+          "ls_intensify_large:llamea_live_ls": 1.0,
+          "pert_escape_small:pert_escape_small_base": 0.36450000000000005,
+          "pert_escape_small:pert_escape_small_tourn_seg_db_7d80fd": 0.36450000000000005,
+          "pert_escape_small:pert_escape_small_tourn_scatter_sa_db_461cd4": 0.405,
+          "pert_escape_large:pert_escape_large_base": 1.0,
+          "pert_adaptive:pert_adaptive_base": 1.0
+        }
+      }
+    },
+    {
+      "round": 3,
+      "gap": 0.06021612170428642,
+      "weak_spots": 8,
+      "role_diversity": {
+        "const_greedy": 1,
+        "const_insertion": 0,
+        "const_savings": 1,
+        "const_random": 1,
+        "ls_intensify_small": 2,
+        "ls_intensify_medium": 2,
+        "ls_intensify_large": 1,
+        "ls_chain": 2,
+        "pert_escape_small": 0,
+        "pert_escape_large": 1,
+        "pert_adaptive": 1
+      },
+      "pheromones": {
+        "role_level": {
+          "const_greedy->ls_intensify_small": 0.9,
+          "const_insertion->ls_intensify_medium": 0.47829690000000014,
+          "const_random->ls_chain": 0.81,
+          "const_savings->ls_intensify_large": 1.0,
+          "ls_intensify_small->ls_intensify_medium": 1.0,
+          "ls_intensify_medium->ls_intensify_large": 1.0,
+          "ls_intensify_large->ls_chain": 1.0,
+          "ls_chain->ls_intensify_small": 1.0,
+          "ls_intensify_small->pert_escape_small": 0.2657205000000001,
+          "ls_intensify_large->pert_escape_large": 0.7290000000000001,
+          "ls_chain->pert_adaptive": 0.81,
+          "pert_escape_small->ls_intensify_medium": 0.47829690000000014,
+          "pert_escape_large->ls_intensify_small": 0.7290000000000001,
+          "pert_adaptive->ls_intensify_large": 0.81
+        },
+        "operator_level": {
+          "const_greedy:const_greedy_base": 0.2657205000000001,
+          "const_greedy:const_greedy_regret_rcl_043bae": 0.9,
+          "ls_intensify_small:ls_intensify_small_base": 0.9,
+          "ls_intensify_small:ls_intensify_small_adapt_kopt_sa_af165d": 1.0,
+          "const_insertion:const_insertion_base": 0.2657205000000001,
+          "const_insertion:const_insertion_regret_hist_3cc514_b81b35": 0.2952450000000001,
+          "const_insertion:const_insertion_nn_regret2_thresh_b9ce3e": 0.36450000000000005,
+          "ls_intensify_medium:ls_intensify_medium_base": 1.0,
+          "ls_intensify_medium:ls_intensify_medium_oropt_sa_8579e1": 0.9,
+          "const_random:const_random_base": 0.81,
+          "ls_chain:ls_chain_base": 0.9,
+          "ls_chain:ls_chain_adaptive_lkh_3b87f4": 1.0,
+          "const_savings:const_savings_base": 1.0,
+          "ls_intensify_large:llamea_live_ls": 1.0,
+          "pert_escape_small:pert_escape_small_base": 0.2657205000000001,
+          "pert_escape_small:pert_escape_small_tourn_seg_db_7d80fd": 0.2657205000000001,
+          "pert_escape_small:pert_escape_small_tourn_scatter_sa_db_461cd4": 0.2952450000000001,
+          "pert_escape_small:pert_escape_small_adapt_nn1r_oropt_db_3f2a61_b51575": 0.36450000000000005,
+          "pert_escape_large:pert_escape_large_base": 0.7290000000000001,
+          "pert_adaptive:pert_adaptive_base": 0.81
+        }
+      }
+    },
+    {
+      "round": 4,
+      "gap": 0.06021612170427996,
+      "weak_spots": 6,
+      "role_diversity": {
+        "const_greedy": 2,
+        "const_insertion": 0,
+        "const_savings": 1,
+        "const_random": 1,
+        "ls_intensify_small": 2,
+        "ls_intensify_medium": 2,
+        "ls_intensify_large": 2,
+        "ls_chain": 2,
+        "pert_escape_small": 1,
+        "pert_escape_large": 1,
+        "pert_adaptive": 1
+      },
+      "pheromones": {
+        "role_level": {
+          "const_greedy->ls_intensify_small": 1.0,
+          "const_insertion->ls_intensify_medium": 0.34867844010000015,
+          "const_random->ls_chain": 0.81,
+          "const_savings->ls_intensify_large": 0.9,
+          "ls_intensify_small->ls_intensify_medium": 0.9,
+          "ls_intensify_medium->ls_intensify_large": 1.0,
+          "ls_intensify_large->ls_chain": 1.0,
+          "ls_chain->ls_intensify_small": 1.0,
+          "ls_intensify_small->pert_escape_small": 1.0,
+          "ls_intensify_large->pert_escape_large": 0.5314410000000002,
+          "ls_chain->pert_adaptive": 1.0,
+          "pert_escape_small->ls_intensify_medium": 1.0,
+          "pert_escape_large->ls_intensify_small": 0.5314410000000002,
+          "pert_adaptive->ls_intensify_large": 1.0
+        },
+        "operator_level": {
+          "const_greedy:const_greedy_base": 1.0,
+          "const_greedy:const_greedy_regret_rcl_043bae": 0.6561000000000001,
+          "ls_intensify_small:ls_intensify_small_base": 1.0,
+          "ls_intensify_small:ls_intensify_small_adapt_kopt_sa_af165d": 0.7290000000000001,
+          "const_insertion:const_insertion_base": 0.19371024450000007,
+          "const_insertion:const_insertion_regret_hist_3cc514_b81b35": 0.21523360500000008,
+          "const_insertion:const_insertion_nn_regret2_thresh_b9ce3e": 0.2657205000000001,
+          "const_insertion:const_insertion_grasp_regret2_thresh_9f2c1a_072816": 0.36450000000000005,
+          "ls_intensify_medium:ls_intensify_medium_base": 1.0,
+          "ls_intensify_medium:ls_intensify_medium_oropt_sa_8579e1": 0.9,
+          "const_random:const_random_base": 0.81,
+          "ls_chain:ls_chain_base": 1.0,
+          "ls_chain:ls_chain_adaptive_lkh_3b87f4": 0.9,
+          "const_savings:const_savings_base": 0.9,
+          "ls_intensify_large:ls_intensify_large_adaptive_lkh_d4b6d5": 0.81,
+          "ls_intensify_large:llamea_live_ls": 1.0,
+          "pert_escape_small:pert_escape_small_base": 0.19371024450000007,
+          "pert_escape_small:pert_escape_small_tourn_seg_db_7d80fd": 0.19371024450000007,
+          "pert_escape_small:pert_escape_small_tourn_scatter_sa_db_461cd4": 0.21523360500000008,
+          "pert_escape_small:pert_escape_small_adapt_nn1r_oropt_db_3f2a61_b51575": 0.2657205000000001,
+          "pert_escape_small:pert_escape_small_hist_point_tourn_metropolis_a65e55": 1.0,
+          "pert_escape_large:pert_escape_large_base": 0.5314410000000002,
+          "pert_adaptive:pert_adaptive_base": 1.0
+        }
+      }
+    }
+  ],
+  "pheromones": {
+    "role_level": {
+      "const_greedy->ls_intensify_small": 1.0,
+      "const_insertion->ls_intensify_medium": 0.34867844010000015,
+      "const_random->ls_chain": 0.81,
+      "const_savings->ls_intensify_large": 0.9,
+      "ls_intensify_small->ls_intensify_medium": 0.9,
+      "ls_intensify_medium->ls_intensify_large": 1.0,
+      "ls_intensify_large->ls_chain": 1.0,
+      "ls_chain->ls_intensify_small": 1.0,
+      "ls_intensify_small->pert_escape_small": 1.0,
+      "ls_intensify_large->pert_escape_large": 0.5314410000000002,
+      "ls_chain->pert_adaptive": 1.0,
+      "pert_escape_small->ls_intensify_medium": 1.0,
+      "pert_escape_large->ls_intensify_small": 0.5314410000000002,
+      "pert_adaptive->ls_intensify_large": 1.0
+    },
+    "operator_level": {
+      "const_greedy:const_greedy_base": 1.0,
+      "const_greedy:const_greedy_regret_rcl_043bae": 0.6561000000000001,
+      "ls_intensify_small:ls_intensify_small_base": 1.0,
+      "ls_intensify_small:ls_intensify_small_adapt_kopt_sa_af165d": 0.7290000000000001,
+      "const_insertion:const_insertion_base": 0.19371024450000007,
+      "const_insertion:const_insertion_regret_hist_3cc514_b81b35": 0.21523360500000008,
+      "const_insertion:const_insertion_nn_regret2_thresh_b9ce3e": 0.2657205000000001,
+      "const_insertion:const_insertion_grasp_regret2_thresh_9f2c1a_072816": 0.36450000000000005,
+      "ls_intensify_medium:ls_intensify_medium_base": 1.0,
+      "ls_intensify_medium:ls_intensify_medium_oropt_sa_8579e1": 0.9,
+      "const_random:const_random_base": 0.81,
+      "ls_chain:ls_chain_base": 1.0,
+      "ls_chain:ls_chain_adaptive_lkh_3b87f4": 0.9,
+      "const_savings:const_savings_base": 0.9,
+      "ls_intensify_large:llamea_live_ls": 1.0,
+      "pert_escape_small:pert_escape_small_base": 0.19371024450000007,
+      "pert_escape_small:pert_escape_small_tourn_seg_db_7d80fd": 0.19371024450000007,
+      "pert_escape_small:pert_escape_small_tourn_scatter_sa_db_461cd4": 0.21523360500000008,
+      "pert_escape_small:pert_escape_small_adapt_nn1r_oropt_db_3f2a61_b51575": 0.2657205000000001,
+      "pert_escape_small:pert_escape_small_hist_point_tourn_metropolis_a65e55": 1.0,
+      "pert_escape_large:pert_escape_large_base": 0.5314410000000002,
+      "pert_adaptive:pert_adaptive_base": 1.0
+    }
+  },
+  "metagraph": {
+    "name": "TSP_ils",
+    "edges": [
+      {
+        "source": "const_greedy",
+        "target": "ls_intensify_small",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "const_insertion",
+        "target": "ls_intensify_medium",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "const_random",
+        "target": "ls_chain",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "const_savings",
+        "target": "ls_intensify_large",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "ls_intensify_small",
+        "target": "ls_intensify_medium",
+        "weight": 0.6,
+        "conditions": []
+      },
+      {
+        "source": "ls_intensify_medium",
+        "target": "ls_intensify_large",
+        "weight": 0.6,
+        "conditions": []
+      },
+      {
+        "source": "ls_intensify_large",
+        "target": "ls_chain",
+        "weight": 0.6,
+        "conditions": []
+      },
+      {
+        "source": "ls_chain",
+        "target": "ls_intensify_small",
+        "weight": 0.6,
+        "conditions": []
+      },
+      {
+        "source": "ls_intensify_small",
+        "target": "pert_escape_small",
+        "weight": 0.5,
+        "conditions": [
+          {
+            "type": "stagnation",
+            "threshold": 3.0
+          }
+        ]
+      },
+      {
+        "source": "ls_intensify_large",
+        "target": "pert_escape_large",
+        "weight": 0.5,
+        "conditions": [
+          {
+            "type": "stagnation",
+            "threshold": 3.0
+          }
+        ]
+      },
+      {
+        "source": "ls_chain",
+        "target": "pert_adaptive",
+        "weight": 0.5,
+        "conditions": [
+          {
+            "type": "stagnation",
+            "threshold": 3.0
+          }
+        ]
+      },
+      {
+        "source": "pert_escape_small",
+        "target": "ls_intensify_medium",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "pert_escape_large",
+        "target": "ls_intensify_small",
+        "weight": 0.9,
+        "conditions": []
+      },
+      {
+        "source": "pert_adaptive",
+        "target": "ls_intensify_large",
+        "weight": 0.9,
+        "conditions": []
+      }
+    ],
+    "reasoning": "Each construction role starts optimization by feeding a (possibly different) local-search entry point (weight 0.9). Local searches are chained in a cycle with mid-range weights (0.6) to mix neighborhoods while preserving exploitation. When stagnation persists (threshold 3), local search transitions to perturbation (weight 0.5) to escape local optima, with a boost factor to increase escape likelihood under stagnation. Every perturbation immediately re-optimizes by returning to a local search (weight 0.9). All non-construction roles have at least one incoming and one outgoing edge, and forbidden edge types are avoided."
+  },
+  "operator_stats": {},
+  "successful_paths": [
+    {
+      "roles": [
+        "const_random",
+        "ls_chain",
+        "ls_intensify_small",
+        "ls_intensify_medium",
+        "ls_intensify_large",
+        "ls_chain",
+        "pert_adaptive",
+        "ls_intensify_large",
+        "ls_chain",
+        "pert_adaptive",
+        "ls_intensify_large",
+        "ls_chain"
+      ],
+      "operators": [
+        "const_random_base",
+        "ls_chain_base",
+        "ls_intensify_small_base",
+        "ls_intensify_medium_base",
+        "llamea_live_ls",
+        "ls_chain_base",
+        "pert_adaptive_base",
+        "ls_intensify_large_adaptive_lkh_d4b6d5",
+        "ls_chain_adaptive_lkh_3b87f4",
+        "pert_adaptive_base",
+        "llamea_live_ls",
+        "ls_chain_base"
+      ]
+    }
+  ],
+  "best_path": {
+    "roles": [
+      "const_random",
+      "ls_chain",
+      "ls_intensify_small",
+      "ls_intensify_medium",
+      "ls_intensify_large",
+      "ls_chain",
+      "pert_adaptive",
+      "ls_intensify_large",
+      "ls_chain",
+      "pert_adaptive",
+      "ls_intensify_large",
+      "ls_chain"
+    ],
+    "operators": [
+      "const_random_base",
+      "ls_chain_base",
+      "ls_intensify_small_base",
+      "ls_intensify_medium_base",
+      "llamea_live_ls",
+      "ls_chain_base",
+      "pert_adaptive_base",
+      "ls_intensify_large_adaptive_lkh_d4b6d5",
+      "ls_chain_adaptive_lkh_3b87f4",
+      "pert_adaptive_base",
+      "llamea_live_ls",
+      "ls_chain_base"
+    ]
+  },
+  "token_usage": {
+    "total": 50106,
+    "input": 25835,
+    "output": 24271
+  },
+  "validation_stats": {
+    "total_generated": 13,
+    "successful": 13,
+    "timeout_errors": 0,
+    "syntax_errors": 0,
+    "runtime_errors": 0,
+    "invalid_result_errors": 0
+  }
+}

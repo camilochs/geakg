@@ -18,11 +18,8 @@ import random
 import sys
 from pathlib import Path
 
-# Add src to path for proper imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
-from akg.transfer.symbolic_rules import extract_symbolic_rules, print_symbolic_rules
-from akg.transfer.symbolic_executor import SymbolicExecutor, ExecutionResult
+from src.geakg.transfer.symbolic_rules import extract_symbolic_rules, print_symbolic_rules
+from src.geakg.transfer.symbolic_executor import SymbolicExecutor, ExecutionResult
 
 
 class TSPOperator:
@@ -50,7 +47,7 @@ class TSPOperator:
 
 
 # Use the full TSP context with delta(), neighbors(), etc.
-from akg.contexts.tsp import TSPContext
+from src.geakg.contexts.tsp import TSPContext
 
 
 def load_tsplib(filepath: str) -> tuple[list[list[float]], float | None]:
@@ -197,6 +194,8 @@ def main():
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("-q", "--quiet", action="store_true", help="Suppress progress output")
     parser.add_argument("--show-rules", action="store_true", help="Print extracted rules")
+    parser.add_argument("--ablation", action="store_true",
+                        help="Ablation: random operator selection (no pheromones/rules)")
     args = parser.parse_args()
 
     # Find snapshot and pool
@@ -270,6 +269,7 @@ def main():
         copy_fn=copy_fn,
         operator_pheromones=operator_pheromones,
         global_mode=False,
+        ablation_mode=args.ablation,
         verbose=not args.quiet,
     )
 
