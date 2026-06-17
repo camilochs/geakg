@@ -18,6 +18,8 @@ Ejemplo de flujo TSP→VRP:
     improved_routes = adapter.from_source_repr(improved_tour)
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Generic, TypeVar

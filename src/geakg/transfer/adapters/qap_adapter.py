@@ -12,6 +12,8 @@ IMPORTANTE: QAP tiene semántica diferente a TSP:
 Por esto, ctx.delta() debe calcular el cambio REAL en QAP, no en TSP.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 

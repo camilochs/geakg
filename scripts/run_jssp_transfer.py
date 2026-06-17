@@ -53,7 +53,7 @@ def ils_jssp(instance, domain: JSSPDomain, time_limit: float, seed: int = 42) ->
         (best_solution, best_makespan, iterations)
     """
     random.seed(seed)
-    n = len(instance.jobs[0])  # operations per job
+    n = instance.n_machines  # operations per job = number of machines
 
     def evaluate(schedule: list) -> int:
         """Evaluate schedule makespan."""
@@ -229,19 +229,11 @@ def main():
     with open(snapshot_path) as f:
         snapshot = json.load(f)
 
-    synth_ops = snapshot.get("operators", {}).get("synthesized_synth", [])
-    print(f"synthesized operators: {len(synth_ops)}")
-
-    if not synth_ops:
-        print("ERROR: Snapshot has no synthesized operators!")
-        return
-
-    for op_data in synth_ops[:5]:
-        op_id = op_data.get("operator_id", "?")
-        role = op_data.get("role", "?")
-        print(f"  - {op_id} ({role})")
-    if len(synth_ops) > 5:
-        print(f"  ... and {len(synth_ops) - 5} more")
+    # Operators are loaded from refined_pool.json by TransferManager.transfer()
+    # below; the snapshot stores pheromones, symbolic rules, and topology (not
+    # operator code), so no embedded synthesized-operator list is required here.
+    print(f"snapshot loaded: {len(snapshot.get('pheromones', {}).get('operator_level', {}))} "
+          f"operator-level pheromone entries")
 
     # Load JSSP instance
     print(f"\n--- Loading JSSP Instance ---")

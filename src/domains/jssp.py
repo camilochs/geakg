@@ -193,20 +193,36 @@ class JSSPDomain(OptimizationDomain[JSSPInstance, JSSPSolution]):
         Returns:
             Makespan value
         """
-        # Track completion times
+        # Track completion times. The schedule is a permutation of (job, op)
+        # pairs interpreted as operation priorities; operations are dispatched in
+        # priority order subject to job precedence (op k cannot start before op
+        # k-1 completes), so any permutation decodes to a feasible active
+        # schedule. For an already precedence-ordered schedule this reproduces a
+        # single in-order pass.
         job_completion = [0] * instance.n_jobs  # When each job's last op finished
         machine_completion = [0] * instance.n_machines  # When each machine is free
+        next_op = [0] * instance.n_jobs  # next dispatchable operation per job
 
-        for job_id, op_idx in schedule:
-            machine = instance.machine_assignments[job_id][op_idx]
-            processing_time = instance.processing_times[job_id][op_idx]
+        remaining = list(schedule)
+        while remaining:
+            for i, (job_id, op_idx) in enumerate(remaining):
+                if op_idx != next_op[job_id]:
+                    continue  # predecessor not yet scheduled: defer this op
+                machine = instance.machine_assignments[job_id][op_idx]
+                processing_time = instance.processing_times[job_id][op_idx]
 
-            # Operation can start when both job's previous op and machine are free
-            start_time = max(job_completion[job_id], machine_completion[machine])
-            end_time = start_time + processing_time
+                # Operation starts when both its job's previous op and its
+                # machine are free
+                start_time = max(job_completion[job_id], machine_completion[machine])
+                end_time = start_time + processing_time
 
-            job_completion[job_id] = end_time
-            machine_completion[machine] = end_time
+                job_completion[job_id] = end_time
+                machine_completion[machine] = end_time
+                next_op[job_id] += 1
+                remaining.pop(i)
+                break
+            else:
+                break  # no dispatchable operation (malformed schedule)
 
         return max(machine_completion)
 
