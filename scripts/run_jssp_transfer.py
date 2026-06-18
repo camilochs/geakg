@@ -325,7 +325,11 @@ def main():
     # Extract operator pheromones from snapshot
     operator_pheromones = {}
     if "pheromones" in snapshot:
-        operator_pheromones = snapshot["pheromones"].get("operator_level", {})
+        # FIX (key-match bug): remap operator_level keys with the _jssp suffix the
+        # adapter appends, otherwise the learned pheromones never match the adapted
+        # operator ids and are silently ignored (fall back to base_weight).
+        _raw = snapshot["pheromones"].get("operator_level", {})
+        operator_pheromones = {f"{k.split(chr(58),1)[0]}:{k.split(chr(58),1)[1]}_jssp": v for k, v in _raw.items()}
 
     # Extract success frequency from successful paths
     success_frequency = {}

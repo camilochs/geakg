@@ -1366,7 +1366,7 @@ class MetaACOSelector:
         from src.geakg.roles import AbstractRole
 
         # Normalize to string for lookups
-        role_str = role.value if isinstance(role, AbstractRole) else role
+        role_str = (role.value if hasattr(role,'value') else role) if isinstance(role, AbstractRole) else role
 
         # Get available operators for this role (predefined bindings)
         operators = list(self.graph.bindings.get_operators_for_role(role))
@@ -1408,7 +1408,7 @@ class MetaACOSelector:
             # Find synthesized operators for this role that haven't been used enough
             unexplored_synth = []
             for op in operators:
-                key = (role.value, op)
+                key = ((role.value if hasattr(role,'value') else role), op)
                 if key in self._synth_operator_uses:
                     current_uses, required_uses = self._synth_operator_uses[key]
                     if current_uses < required_uses:
@@ -1426,12 +1426,12 @@ class MetaACOSelector:
                     selected = random.choice(top_candidates)
 
                     # Increment usage counter
-                    key = (role.value, selected)
+                    key = ((role.value if hasattr(role,'value') else role), selected)
                     current, required = self._synth_operator_uses[key]
                     self._synth_operator_uses[key] = (current + 1, required)
 
                     logger.debug(
-                        f"[synthesized-EXPLORE] Forced selection of {selected} in {role.value} "
+                        f"[synthesized-EXPLORE] Forced selection of {selected} in {(role.value if hasattr(role,'value') else role)} "
                         f"(use {current + 1}/{required})"
                     )
                     return selected
@@ -1439,10 +1439,10 @@ class MetaACOSelector:
         # Standard ACO selection with operator pheromones
         probs = []
         for op in operators:
-            tau = self._operator_pheromones.get((role.value, op), 1.0)
+            tau = self._operator_pheromones.get(((role.value if hasattr(role,'value') else role), op), 1.0)
             # Get operator weight: check synthesized weights first (synthesized),
             # then fall back to bindings (predefined operators)
-            key = (role.value, op)
+            key = ((role.value if hasattr(role,'value') else role), op)
             if key in self._synthesized_operator_weights:
                 # synthesized synthesized operator: use LLM-suggested weight
                 weight = self._synthesized_operator_weights[key]
@@ -1460,7 +1460,7 @@ class MetaACOSelector:
         selected = random.choices(operators, weights=probs, k=1)[0]
 
         # Track synthesized operator usage even when selected by ACO (not forced)
-        key = (role.value, selected)
+        key = ((role.value if hasattr(role,'value') else role), selected)
         if key in self._synth_operator_uses:
             current, required = self._synth_operator_uses[key]
             self._synth_operator_uses[key] = (current + 1, required)
