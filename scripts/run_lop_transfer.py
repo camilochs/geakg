@@ -264,7 +264,12 @@ def main():
     # Extract operator pheromones from snapshot
     operator_pheromones = {}
     if "pheromones" in snapshot:
-        operator_pheromones = snapshot["pheromones"].get("operator_level", {})
+        _raw = snapshot["pheromones"].get("operator_level", {})
+        # FIX (_lop key-match bug, mirrors the _jssp/_qap fix): LOP-adapted operators
+        # carry a _lop suffix, so the snapshot keys must be remapped to match, else the
+        # learned pheromones are never applied and the executor falls back to base weight.
+        operator_pheromones = {f"{k.split(chr(58), 1)[0]}:{k.split(chr(58), 1)[1]}_lop": v
+                               for k, v in _raw.items()}
 
     # Extract success frequency from successful paths
     success_frequency = {}

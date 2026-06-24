@@ -247,7 +247,13 @@ def run_single_instance(
     rule_engine = extract_symbolic_rules(snapshot)
     operator_pheromones = {}
     if "pheromones" in snapshot:
-        operator_pheromones = snapshot["pheromones"].get("operator_level", {})
+        _raw = snapshot["pheromones"].get("operator_level", {})
+        # FIX (_qap key-match bug, mirrors the _jssp fix): QAP-adapted operators
+        # carry a _qap suffix, so the snapshot operator_level keys must be remapped
+        # to match; otherwise the learned pheromones are never applied and the
+        # executor silently falls back to the base weight (uniform).
+        operator_pheromones = {f"{k.split(chr(58), 1)[0]}:{k.split(chr(58), 1)[1]}_qap": v
+                               for k, v in _raw.items()}
 
     success_frequency = {}
     for path in snapshot.get("successful_paths", []):
@@ -528,7 +534,11 @@ def main():
     # Extract operator pheromones from snapshot
     operator_pheromones = {}
     if "pheromones" in snapshot:
-        operator_pheromones = snapshot["pheromones"].get("operator_level", {})
+        _raw = snapshot["pheromones"].get("operator_level", {})
+        # FIX (_qap key-match bug, mirrors the _jssp fix): remap snapshot keys to the
+        # _qap suffix the adapted operators carry, else learned pheromones are dropped.
+        operator_pheromones = {f"{k.split(chr(58), 1)[0]}:{k.split(chr(58), 1)[1]}_qap": v
+                               for k, v in _raw.items()}
 
     # Extract success frequency from successful paths
     success_frequency = {}

@@ -83,20 +83,17 @@ class QAPDomain:
 
         n = int(lines[0])
 
-        # Parse distance matrix (first n rows after n)
-        distance_matrix = []
-        idx = 1
-        while len(distance_matrix) < n:
-            row = list(map(int, lines[idx].split()))
-            distance_matrix.append(row)
-            idx += 1
-
-        # Parse flow matrix (next n rows)
-        flow_matrix = []
-        while len(flow_matrix) < n:
-            row = list(map(int, lines[idx].split()))
-            flow_matrix.append(row)
-            idx += 1
+        # QAPLIB wraps long matrix rows across multiple physical lines for large
+        # instances, so reshape by count rather than by line (first n*n entries =
+        # distance matrix, next n*n = flow matrix); this keeps small non-wrapped
+        # instances byte-identical while fixing n>=100 parsing.
+        nums = []
+        for line in lines[1:]:
+            nums.extend(int(x) for x in line.split())
+        if len(nums) < 2 * n * n:
+            raise ValueError(f"{path.stem}: expected {2 * n * n} matrix entries, got {len(nums)}")
+        distance_matrix = [nums[i * n:(i + 1) * n] for i in range(n)]
+        flow_matrix = [nums[n * n + i * n: n * n + (i + 1) * n] for i in range(n)]
 
         return QAPInstance(
             name=path.stem,
