@@ -34,15 +34,15 @@ from scipy import stats as sp_stats
 # Color Palette
 # ---------------------------------------------------------------------------
 
-VERDE_CENTRAL = "#0CF574"      # Spring Green — Symbolic Executor / GEAKG / "learned"
-VERDE_OSCURO = "#587291"       # Blue Slate — NAS-Bench-Graph / Regularization category
-SALVIA_CLARA = "#15E6CD"       # Turquoise — accent/highlight / Evaluation category
-AZUL_GRISACEO = "#2F97C1"     # Blue Green — RegEvo / Activation category
-CIRUELA_APAGADA = "#1CCAD8"   # Strong Cyan — Training category
-GRIS_TINTA = "#2B2F36"        # Neutral dark — Random / text
-GRIS_NEUTRO = "#94A3B8"       # Slate gray — neutral "before" / Uniform state
+VERDE_CENTRAL = "#D6336C"      # Rose pink — Symbolic Executor / GEAKG / "learned" / topology
+VERDE_OSCURO = "#8E1F4F"       # Dark plum — Regularization category / cmap endpoint
+SALVIA_CLARA = "#FDC5F5"       # Soft pink — accent / Evaluation category
+AZUL_GRISACEO = "#8093F1"     # Periwinkle — RegEvo / Activation category
+CIRUELA_APAGADA = "#B388EB"   # Lavender — Training category
+GRIS_TINTA = "#2F2A2B"        # Ink — Random / text
+GRIS_NEUTRO = "#B3AACD"       # Gray-lavender — neutral "before" / Uniform state
 
-# Sequential green colormap for pheromone heatmap: Salvia clara -> Verde oscuro
+# Sequential PINK colormap for pheromone heatmap: white -> soft pink -> rose -> plum
 _PHEROMONE_CMAP = mcolors.LinearSegmentedColormap.from_list(
     "geakg_sequential",
     ["#FFFFFF", SALVIA_CLARA, VERDE_CENTRAL, VERDE_OSCURO],
@@ -252,10 +252,6 @@ def fig_pheromone_heatmap(pheromone_data: dict, out_dir: Path) -> None:
     # Disable grid behind the heatmap
     ax.grid(False)
 
-    ax.set_title(
-        f"Learned Pheromone Matrix $\\Phi$ (NAS GEAKG, {ds.capitalize()} dataset)",
-        fontsize=16, fontweight="bold", pad=14,
-    )
     ax.set_xlabel("Target Role $r_j$", fontsize=15, labelpad=10)
     ax.set_ylabel("Source Role $r_i$", fontsize=15)
     ax.tick_params(axis="x", labelsize=11, rotation=45)
@@ -523,8 +519,10 @@ def fig_dominant_paths(pheromone_data: dict, out_dir: Path) -> None:
             ax.add_patch(fancy)
             # Use dark text for light backgrounds, white for dark backgrounds
             text_color = "white" if cat in ("regularization",) else GRIS_TINTA
+            # Shrink the font for long role names so they fit inside the box.
+            label_fs = 9.5 if len(short) <= 9 else (8.0 if len(short) <= 12 else 7.0)
             ax.text(x + box_w / 2, y, short,
-                    ha="center", va="center", fontsize=10, fontweight="bold",
+                    ha="center", va="center", fontsize=label_fs, fontweight="bold",
                     color=text_color)
 
             if col < len(path) - 1:
@@ -557,11 +555,6 @@ def fig_dominant_paths(pheromone_data: dict, out_dir: Path) -> None:
                for c in NAS_CATEGORIES]
     ax.legend(handles=handles, loc="lower right", fontsize=11, ncol=5,
               frameon=True, fancybox=True, edgecolor=SALVIA_CLARA)
-
-    ax.set_title(
-        f"Dominant Traversal Paths in the NAS GEAKG ({ds.capitalize()} dataset)",
-        fontsize=15, fontweight="bold", pad=15,
-    )
 
     _save(fig, out_dir / "fig_kg_dominant_paths.pdf")
 

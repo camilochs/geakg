@@ -38,13 +38,13 @@ import seaborn as sns
 # Color Palette
 # ---------------------------------------------------------------------------
 
-VERDE_CENTRAL = "#0CF574"      # Spring Green — Symbolic Executor / GEAKG / "learned"
-VERDE_OSCURO = "#587291"       # Blue Slate — NAS-Bench-Graph benchmark
-SALVIA_CLARA = "#15E6CD"       # Turquoise — accent/highlight badges
-AZUL_GRISACEO = "#2F97C1"     # Blue Green — RegEvo method
-CIRUELA_APAGADA = "#1CCAD8"   # Strong Cyan — accent (heatmap negative)
-GRIS_TINTA = "#2B2F36"        # Neutral dark — Random method / text
-AZUL_201 = "#6366F1"          # Indigo — NAS-Bench-201 benchmark (distinct from RegEvo)
+VERDE_CENTRAL = "#D6336C"      # Rose pink — Symbolic Executor / GEAKG / "learned"
+VERDE_OSCURO = "#8E1F4F"       # Dark plum — NAS-Bench-Graph benchmark
+SALVIA_CLARA = "#FDC5F5"       # Soft pink — accent/highlight badges
+AZUL_GRISACEO = "#8093F1"     # Periwinkle — RegEvo method
+CIRUELA_APAGADA = "#B388EB"   # Lavender — accent (heatmap negative)
+GRIS_TINTA = "#2F2A2B"        # Ink — Random method / text
+AZUL_201 = "#6C5CE7"          # Indigo-violet — NAS-Bench-201 benchmark (distinct from RegEvo)
 
 # Semantic mapping:
 #   Symbolic/GEAKG  -> VERDE_CENTRAL   (green)
@@ -418,7 +418,6 @@ def fig1a_transfer_heatmap_graph(graph_data: dict[str, dict]) -> None:
     cbar.set_label(r"$\Delta$ Accuracy (pp, clipped at $\pm$5)", size=14)
     ax.set_xlabel("Target Dataset", fontsize=16)
     ax.set_ylabel("Source Dataset", fontsize=16)
-    ax.set_title("NAS-Bench-Graph: Cross-Dataset Transfer Heatmap", fontsize=18, fontweight="bold", pad=12)
     ax.tick_params(axis="x", rotation=40, labelsize=14)
     ax.tick_params(axis="y", rotation=0, labelsize=14)
 
@@ -486,7 +485,6 @@ def fig1b_transfer_heatmap_201(bench201_data: dict[str, dict]) -> None:
     cbar.set_label(r"$\Delta$ Accuracy (pp)", size=14)
     ax.set_xlabel("Target Dataset", fontsize=16)
     ax.set_ylabel("Source Dataset", fontsize=16)
-    ax.set_title("NAS-Bench-201: Cross-Dataset Transfer Heatmap", fontsize=18, fontweight="bold", pad=12)
     ax.tick_params(axis="x", rotation=40, labelsize=14)
     ax.tick_params(axis="y", rotation=0, labelsize=14)
 
@@ -595,16 +593,18 @@ def _draw_variance_panel(
             continue
         sym_std = stats["sym_std"]
         rand_std = stats["rand_std"]
-        worst_std = max(stats["reg_std"], rand_std)
-        if worst_std > 0 and sym_std > 0:
-            ratio = worst_std / sym_std
+        reg_std = stats["reg_std"]
+        # Ratio is reported relative to Regularized Evolution (the strong baseline),
+        # matching the main-text claim. Beating Random on variance is trivial.
+        if reg_std > 0 and sym_std > 0:
+            ratio = reg_std / sym_std
             if ratio < 1.15:
                 continue
-            group_max = max(sym_std, stats["reg_std"], rand_std)
+            group_max = max(sym_std, reg_std, rand_std)
             ratio_y = group_max + max(0.10, 0.16 * max_std)
             ax.text(
                 p_idx, ratio_y,
-                f"{ratio:.1f}\u00d7 lower",
+                f"{ratio:.1f}\u00d7 vs RegEvo",
                 ha="center", va="bottom", fontsize=ratio_font,
                 color=GRIS_TINTA, fontweight="bold",
                 bbox=dict(
@@ -867,10 +867,6 @@ def fig3_aggregate_summary(
     ax.set_ylim(0, 118)
     ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
     ax.tick_params(axis="y", labelsize=13)
-    ax.set_title(
-        "Aggregate Transfer Performance: Symbolic Executor vs Baselines",
-        fontsize=16, fontweight="bold", pad=14,
-    )
     ax.legend(fontsize=13, loc="upper center", ncol=2, frameon=True,
               fancybox=True, edgecolor=SALVIA_CLARA,
               bbox_to_anchor=(0.5, -0.10))
